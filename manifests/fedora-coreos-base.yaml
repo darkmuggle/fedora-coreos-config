@@ -55,10 +55,6 @@ remove-from-packages:
               /usr/lib/systemd/system/systemd-networkd-wait-online.service]
   - [systemd-container, /usr/lib/systemd/network/.*]
   - [systemd-udev, /usr/lib/systemd/network/.*]
-  # We're still using the legacy dracut network module for now. Dracut keys off
-  # of this: https://github.com/dracutdevs/dracut/blob/1fcc70fe57eea0ea658aa2de5c0044683fe85cf1/modules.d/40network/module-setup.sh#L11
-  - [NetworkManager, /usr/libexec/nm-initrd-generator]
-
 
 remove-files:
   # We don't ship man(1) or info(1)
@@ -157,6 +153,9 @@ packages:
   - whois-nls
   # Parsing/Interacting with JSON data
   - jq
+  # NetorkManager
+  - dracut-network
+  - NetworkManager-tui NetworkManager-team
 
 # This thing is crying out to be pulled into systemd, but that hasn't happened
 # yet.  Also we may want to add to rpm-ostree something like arch negation;

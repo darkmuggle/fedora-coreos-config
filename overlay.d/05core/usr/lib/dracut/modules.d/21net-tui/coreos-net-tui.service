@@ -1,0 +1,22 @@
+[Unit]
+Description=CoreOS: TUI Network Configuration
+ConditionPathExists=/etc/initrd-release
+
+# Wait for our NetworkManager runner.
+After=coreos-nm.service
+Requires=coreos-nm.service
+
+[Service]
+ExecStart=/usr/bin/nmtui
+Type=oneshot
+StandardInput=tty-force
+StandardOutput=inherit
+StandardError=inherit
+KillMode=process
+IgnoreSIGPIPE=no
+TasksMax=infinity
+RemainAfterExit=true
+
+# Bash ignores SIGTERM, so we send SIGHUP instead, to ensure that bash
+# terminates cleanly.
+KillSignal=SIGHUP

@@ -1,0 +1,19 @@
+[Unit]
+Description=CoreOS: NetworkManager in Initrd
+ConditionPathExists=/etc/initrd-release
+
+# Wait until sysinit.target is done
+After=sysinit.target
+Requires=sysinit.target
+
+# Make sure if ExecStart= fails, the boot fails
+OnFailure=emergency.target
+OnFailureJobMode=isolate
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.NetworkManager
+ExecReload=/usr/bin/busctl call org.freedesktop.NetworkManager /org/freedesktop/NetworkManager org.freedesktop.NetworkManager Reload u 0
+ExecStart=/usr/sbin/NetworkManager --no-daemon
+Restart=on-failure
+KillMode=process
