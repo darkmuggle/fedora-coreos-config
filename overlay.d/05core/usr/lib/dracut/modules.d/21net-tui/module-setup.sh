@@ -57,6 +57,7 @@ install() {
 
     inst_simple "$moddir/net-tui.target" "$systemdsystemunitdir/net-tui.target"
     install_unit dbus.socket            socket.target.wants
+    install_unit dbus.service           initrd.target.wants
     install_unit coreos-nm.service
     install_unit coreos-net-tui.service
 

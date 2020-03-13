@@ -1,0 +1,20 @@
+[Unit]
+Description=DBUS in the Initramfs
+DefaultDependencies=false
+Requires=dbus.socket
+
+[Service]
+Type=notify
+Sockets=dbus.socket
+OOMScoreAdjust=-900
+LimitNOFILE=16384
+ProtectSystem=full
+PrivateTmp=true
+PrivateDevices=true
+ExecStart=/usr/bin/dbus-broker-launch --scope system --audit
+ExecReload=/usr/bin/busctl call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus ReloadConfig
+
+[Install]
+# Make sure that services can still refer to this under the name of the
+# old SysV script (messagebus).
+Alias=dbus.service messagebus.service
