@@ -1,0 +1,28 @@
+[Unit]
+Description=Ignition fetch fallback
+DefaultDependencies=false
+
+ConditionKernelCommandLine=ignition.firstboot
+ConditionKernelCommandLine=|ignition.platform=metal
+ConditionKernelCommandLine=|ignition.oem=metal
+ConditionKernelCommandLine=|ignition.platform=vmware
+ConditionKernelCommandLine=|ignition.oem=vmware
+ConditionKernelCommandLine=|ignition.platform=qemu
+ConditionKernelCommandLine=|ignition.oem=qemu
+
+After=ignition-fetch.service
+Before=sysroot-etc.mount sysroot-var.mount
+
+Before=coreos-live-clear-sssd-cache.service
+Before=coreos-live-unmount-tmpfs-var.service
+Before=coreos-populate-writable.service
+
+Before=ignition-files.service
+Before=ignition-disks.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/rm -rfv /run/ignition.json
+ExecStart=/usr/bin/test -f /run/ignition.json || /usr/bin/touch /etc/coreos-live-initramfs
+ExecStart=/usr/bin/cp -v /usr/share/ignition-fallback.json /run/ignition.json

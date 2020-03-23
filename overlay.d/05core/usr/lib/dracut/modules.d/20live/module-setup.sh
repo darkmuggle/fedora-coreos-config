@@ -30,4 +30,10 @@ install() {
 
     inst_simple "$moddir/writable.mount" \
         "$systemdsystemunitdir/writable.mount"
+
+    inst_simple "$moddir/coreos-failback.service" \
+        "$systemdsystemunitdir/coreos-failback.service"
+
+    inst_simple "$moddir/ignition-fallback.json" \
+        "/usr/share/coreos/ignition-fallback.json"
 }
