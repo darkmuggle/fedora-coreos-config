@@ -33,8 +33,8 @@ Before=ignition-diskful.target
 Before=dracut-initqueue.service
 After=dracut-cmdline.service
 # Since we are mounting /boot/, require the device first
-Requires=dev-disk-by\x2dlabel-boot.device
-After=dev-disk-by\x2dlabel-boot.device   
+Requires=mnt-boot.mount
+After=mnt-boot.mount
 
 [Service]
 Type=oneshot
