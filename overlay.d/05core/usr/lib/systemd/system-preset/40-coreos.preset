@@ -2,6 +2,7 @@
 enable coreos-growpart.service
 enable console-login-helper-messages-issuegen.service
 enable console-login-helper-messages-motdgen.service
+enable coreos-multipathd.service
 # CA certs (probably to add to base fedora eventually)
 enable coreos-update-ca-trust.service
 # This one is from https://github.com/coreos/ignition-dracut

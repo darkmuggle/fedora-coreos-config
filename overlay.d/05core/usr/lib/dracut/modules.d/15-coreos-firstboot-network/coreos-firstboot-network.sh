@@ -64,3 +64,9 @@ if [ -n "$(ls -A ${initramfs_firstboot_network_dir} 2>/dev/null)" ]; then
 else
     echo "info: no files to copy from ${initramfs_firstboot_network_dir}. skipping"
 fi
+
+# Now run the hook normally, but first
+# take the safety's off
+set +ue
+. /lib/dracut-lib.sh
+. /run/99-nm-run.sh

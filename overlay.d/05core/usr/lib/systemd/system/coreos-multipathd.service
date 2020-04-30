@@ -1,0 +1,19 @@
+[Unit]
+Description=CoreOS Default Multipath Configuration
+Documentation=https://github.com/coreos/fedora-coreos-config
+
+ConditionKernelCommandLine=rd.multipath=default
+ConditionPathExists=!/etc/multipath/multipath.conf.d
+ConditionPathExists=!/etc/multipath.conf
+
+Before=multipathd.service
+Before=sysinit.target
+Before=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/mkdir -p /etc/multipath/multipath.conf.d
+ExecStart=/usr/sbin/mpathconf --enable
+
+[Install]
+WantedBy=sysinit.target

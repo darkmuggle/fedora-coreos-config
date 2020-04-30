@@ -1,0 +1,21 @@
+# Control when the Network Manager Binary Runs.
+
+# This modules comes out of trying to solve the race-condition that happens when
+# LABEL=boot and LABEL=root disk are on complicated devices. What this does is
+# to allow [2] to run but give us time to copy the intenteded configuration first before [1].
+
+# [1] https://github.com/dracutdevs/dracut/blob/master/modules.d/35network-manager/nm-run.sh
+# [2] https://github.com/dracutdevs/dracut/blob/master/modules.d/35network-manager/nm-config.sh
+
+[Unit]
+Description=CoreOS NetworkManager hook delay
+ConditionPathExists=/usr/lib/initrd-release
+DefaultDependencies=false
+Before=dracut-initqueue.service
+Before=dracut-cmdline.service
+Before=ignition-diskful.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/mv /usr/lib/dracut/hooks/initqueue/settled/99-nm-run.sh /run/99-nm-run.sh

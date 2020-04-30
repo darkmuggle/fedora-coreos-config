@@ -1,0 +1,27 @@
+# This unit will run early in boot and detect if the user copied
+# in firstboot networking config files into the installed system
+# (most likely by using `coreos-installer install --copy-network`).
+# Since this unit is modifying network configuration there are some
+
+[Unit]
+Description=CoreOS Firstboot Networking Config
+ConditionPathExists=/usr/lib/initrd-release
+DefaultDependencies=false
+
+# Make sure we start before ignition setup
+After=coreos-pre-network.service
+Before=ignition-fetch.service
+Before=ignition-setup-base.service
+Before=ignition-setup-user.service
+
+# Since we are mounting /boot/, require the device first
+Requires=dev-disk-by\x2dlabel-boot.device
+After=dev-disk-by\x2dlabel-boot.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# The MountFlags=slave is so the umount of /boot is guaranteed to happen
+# /boot will only be mounted for the lifetime of the unit.
+MountFlags=slave
+ExecStart=/usr/sbin/coreos-firstboot-network.sh
