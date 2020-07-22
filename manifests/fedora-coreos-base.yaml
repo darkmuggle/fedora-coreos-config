@@ -54,7 +54,6 @@ remove-from-packages:
               /usr/lib/systemd/system/systemd-networkd-wait-online.service]
   - [systemd-container, /usr/lib/systemd/network/.*]
 
-
 remove-files:
   # We don't ship man(1) or info(1)
   - usr/share/info

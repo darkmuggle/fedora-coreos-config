@@ -32,6 +32,10 @@ remove-from-packages:
   # We don't want auto-generated mount units. See also
   # https://github.com/systemd/systemd/issues/13099
   - [systemd-udev, /usr/lib/systemd/system-generators/systemd-gpt-auto-generator]
+  # TRANSITIONAL: remove upon the release of Ignition 2.5.0
+  - [ignition, /usr/lib/dracut/modules.d/30ignition/coreos.*,
+               /usr/lib/dracut/modules.d/30ignition/module-setup.sh,
+               /usr/lib/dracut/modules.d/99.*]
 
 postprocess:
   # Undo RPM scripts enabling units; we want the presets to be canonical
