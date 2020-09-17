@@ -5,14 +5,22 @@
   "passwd": {
     "users": [
       {
-        "name": "core",
         "gecos": "CoreOS Admin",
         "groups": [
           "adm",
           "sudo",
           "systemd-journal",
           "wheel"
-        ]
+        ],
+        "name": "core"
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "enabled": true,
+        "name": "afterburn-sshkeys@core.service"
       }
     ]
   }
